@@ -11,5 +11,11 @@ jobs:
     steps:
       - name: Enviar notificación a ntfy.sh
         run: |
-          curl -d "Se ha subido nuevo código al repositorio main. Hola Mundo Artístico desplegado!" \
+          # Obtenemos la hora actual en formato HH:MM (puedes ajustar el formato)
+          TIME=$(date +'%H:%M')
+          
+          # Enviamos la notificación usando variables de GitHub
+          curl -H "Title: Despliegue Exitoso" \
+          -H "Tags: package,rocket" \
+          -d "Usuario: ${{ github.actor }} | Hora: $(date +'%H:%M')" \
           ntfy.sh/devops-itla
