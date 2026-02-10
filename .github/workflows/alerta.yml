@@ -15,7 +15,8 @@ jobs:
           TIME=$(date +'%H:%M')
           
           # Enviamos la notificación usando variables de GitHub
-          curl -H "Title: Despliegue Exitoso" \
-          -H "Tags: package,rocket" \
+          curl -H "Title: Nuevos cambios en main" \
+          -H "Tags: success, alert" \
           -d "Usuario: ${{ github.actor }} | Hora: $(date +'%H:%M')" \
+          -d commit: ${{ github.sha }} \
           ntfy.sh/devops-itla
