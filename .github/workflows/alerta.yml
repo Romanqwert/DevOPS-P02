@@ -11,12 +11,15 @@ jobs:
     steps:
       - name: Enviar notificación a ntfy.sh
         run: |
-          # Obtenemos la hora actual en formato HH:MM (puedes ajustar el formato)
-          TIME=$(date +'%H:%M')
+          # 1. Capturamos la hora actual de RD (America/Santo_Domingo)
+          TIME=$(TZ="America/Santo_Domingo" date +'%d/%m/%Y %I:%M %p')
           
-          # Enviamos la notificación usando variables de GitHub
-          curl -H "Title: Nuevos cambios en main" \
-          -H "Tags: success, alert" \
-          -d "Usuario: ${{ github.actor }} | Hora: $(date +'%H:%M')" \
-          -d commit: ${{ github.sha }} \
-          ntfy.sh/devops-itla
+          # 2. Enviamos la notificación
+          # Usamos un solo bloque -d para el mensaje completo para evitar errores
+          curl \
+            -H "Title: Nuevos cambios en Main" \
+            -H "Tags: warning,cd" \
+            -d "👤 Subido por: ${{ github.actor }}
+          🇩🇴 Hora (RD): $TIME
+          🔗 Commit: ${{ github.event.head_commit.message }}" \
+            ntfy.sh/devops-itla
